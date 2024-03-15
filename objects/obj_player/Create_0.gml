@@ -20,3 +20,7 @@ window_set_cursor(cr_none);
 
 ready_to_restart = false;
 
+can_throw_bomb = true;
+bomb_cooldown = 120;
+bomb_power = 8;
+

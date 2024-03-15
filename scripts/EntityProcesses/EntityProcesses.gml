@@ -132,3 +132,9 @@ function collision()
 		if(!place_meeting(x, y + sign(_ty - y), [obj_solid])) y += sign(_ty - y)
 	}
 }
+function collision_bounce()
+{
+	collision();
+	if place_meeting(x + sign(hsp), y, obj_solid) hsp = -hsp;
+	if place_meeting(x, y + sign(vsp), obj_solid) vsp = -vsp;
+}

@@ -43,6 +43,8 @@ switch(state)
 		aim_bow();
 
 		check_fire();
+		
+		check_bomb();
 
 		anim();
 		

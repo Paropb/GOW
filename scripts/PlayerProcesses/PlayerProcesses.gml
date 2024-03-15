@@ -81,40 +81,71 @@ function anim()
 }
 function check_fire()
 {
-	if(mouse_check_button(mb_left))
+	if(keyboard_check(vk_shift))
 	{
-		if can_attack == true
+		if(mouse_check_button(mb_left))
 		{
-			inst_7C655830.shake_duration = 8;
-			inst_7C655830.shakeIt_amount = 4;
-			
-			audio_play_sound(sound_piano, 0, false, 1, 0, random_range(0.5, 1.5));
-			
-			can_attack = false;
-			alarm[0] = fire_rate;
-			
-			var _dir = point_direction(x, y, mouse_x, mouse_y);
-			bow_dis = 5;
-			
-			var _inst = instance_create_layer(x, y, "Arrows", obj_arrow);
-			with(_inst)
+			if(!instance_exists(obj_new_laser))
 			{
-				speed = other.arrow_speed;
-				direction = _dir;
-				image_angle = _dir;
-				owner_id = other;
+				audio_play_sound(sound_laser, 0, true, 1, 0, random_range(0.9, 1.1));
+				instance_create_layer(mouse_x, mouse_y, "Instances", obj_new_laser);
+			}
+		}
+		else
+		{
+			audio_stop_sound(sound_laser);
+			instance_destroy(obj_new_laser);
+		}
+	}
+	else
+	{
+		if(instance_exists(obj_new_laser))
+		{
+			instance_destroy(obj_new_laser);
+		}
+		if(mouse_check_button(mb_left))
+		{
+			if can_attack == true
+			{
+				inst_7C655830.shake_duration = 8;
+				inst_7C655830.shakeIt_amount = 4;
+			
+				audio_play_sound(sound_piano, 0, false, 1, 0, random_range(0.5, 1.5));
+			
+				can_attack = false;
+				alarm[0] = fire_rate;
+			
+				var _dir = point_direction(x, y, mouse_x, mouse_y);
+				bow_dis = 5;
+			
+				var _inst = instance_create_layer(x, y, "Arrows", obj_arrow);
+				with(_inst)
+				{
+					speed = other.arrow_speed;
+					direction = _dir;
+					image_angle = _dir;
+					owner_id = other;
+				}
 			}
 		}
 	}
-	
-	else if(mouse_check_button(mb_right))
+}
+function check_bomb()
+{
+	if mouse_check_button_pressed(mb_right)
 	{
-		if(!instance_exists(obj_laser))
+		if(can_throw_bomb)
 		{
+			can_throw_bomb = false;
+			alarm[2] = bomb_cooldown;
+			var _dir = point_direction(x, y, mouse_x, mouse_y);
+			var _inst = instance_create_layer(x, y, "Instances", obj_bomb);
+			with(_inst)
+			{
+				hsp = lengthdir_x(other.bomb_power, _dir);
+				vsp = lengthdir_y(other.bomb_power, _dir);
+			}
 		}
 	}
-	else if(mouse_check_button_released(mb_right))
-	{
 		
-	}
 }
